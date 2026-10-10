@@ -1,0 +1,17 @@
+@theme {
+  --font-sans: 'Figtree', sans-serif;
+  --font-mono: 'Geist Mono', monospace;
+}
+
+:root {
+  --ui-radius: 0.25rem;
+  --ui-primary: black;
+}
+
+:root, .light {
+  --ui-bg-muted: var(--ui-color-neutral-100);
+  --ui-bg-elevated: var(--ui-color-neutral-100);
+  --ui-bg-accented: var(--ui-color-neutral-200);
+  --ui-text: var(--ui-color-neutral-900);
+  --ui-text-highlighted: var(--ui-color-neutral-950);
+}
