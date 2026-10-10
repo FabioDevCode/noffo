@@ -1,22 +1,20 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
 
+@theme {
+  --font-sans: 'Figtree', sans-serif;
+  --font-mono: 'Geist Mono', monospace;
+}
+
 :root {
+  --ui-radius: 0.125rem;
   --ui-primary: black;
 }
 
 :root, .light {
-  --ui-bg: var(--ui-color-neutral-50);
   --ui-bg-muted: var(--ui-color-neutral-100);
-  --ui-text-inverted: var(--ui-color-neutral-50);
-}
-
-.dark {
-  --ui-primary: white;
-  --ui-text-highlighted: var(--ui-color-neutral-50);
-  --ui-bg-inverted: var(--ui-color-neutral-50);
-  --ui-border-inverted: var(--ui-color-neutral-50);
-  --ui-bg: var(--ui-color-neutral-900);
-  --ui-bg-muted: var(--ui-color-neutral-800);
-  --ui-text-inverted: var(--ui-color-neutral-900);
+  --ui-bg-elevated: var(--ui-color-neutral-100);
+  --ui-bg-accented: var(--ui-color-neutral-200);
+  --ui-text: var(--ui-color-neutral-900);
+  --ui-text-highlighted: var(--ui-color-neutral-950);
 }
