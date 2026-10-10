@@ -9,6 +9,9 @@
       "@simple-git/argv-parser@<2.0.1": ">=2.0.1",
       "simple-git@>=3.15.0 <4.0.1": ">=4.0.1",
       "simple-git@<=3.36.0": ">=4.0.0"
+    },
+    "patchedDependencies": {
+      "@nuxt/devtools@3.4.2": "patches/@nuxt__devtools@3.4.2.patch"
     }
   }
 }
