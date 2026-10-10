@@ -8,6 +8,13 @@
       "when": 1791568306199,
       "tag": "0000_thankful_taskmaster",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1791623756452,
+      "tag": "0001_lush_spectrum",
+      "breakpoints": true
     }
   ]
 }
