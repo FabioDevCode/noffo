@@ -2,7 +2,7 @@
 import { authClient } from '~/lib/auth-client'
 import { getSafeRedirect } from '~/lib/auth-redirect'
 
-definePageMeta({ middleware: 'guest' })
+definePageMeta({ middleware: 'guest', layout: false })
 
 const route = useRoute()
 const state = reactive({ name: '', email: '', password: '' })
