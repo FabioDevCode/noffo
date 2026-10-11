@@ -2,7 +2,17 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
-  modules: ['@nuxt/ui'],
+  modules: [
+    '@nuxt/ui',
+    '@vueuse/nuxt',
+  ],
+  ui: {
+    theme: {
+      defaultVariants: {
+        size: 'lg',
+      },
+    },
+  },
   css: ['~/assets/css/main.css'],
   colorMode: {
     preference: 'light',

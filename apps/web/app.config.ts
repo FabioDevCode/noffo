@@ -1,32 +1,22 @@
 export default defineAppConfig({
   ui: {
     colors: {
-      neutral: 'neutral'
+      neutral: 'neutral',
     },
     card: {
       defaultVariants: {
-        variant: 'subtle'
-      }
+        variant: 'subtle',
+      },
     },
     alert: {
       defaultVariants: {
-        variant: 'subtle'
-      }
+        variant: 'subtle',
+      },
     },
     empty: {
       defaultVariants: {
-        variant: 'subtle'
-      }
-    }
-  }
+        variant: 'subtle',
+      },
+    },
+  },
 })
-
-function defineAppConfig(arg0: {
-    ui: {
-        colors: {
-            neutral: string;
-        };
-    };
-}) {
-    throw new Error("Function not implemented.");
-}
