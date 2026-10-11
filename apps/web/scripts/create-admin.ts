@@ -1,5 +1,4 @@
 import * as readline from 'node:readline'
-import { randomUUID } from 'node:crypto'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { sql } from 'drizzle-orm'
@@ -14,11 +13,14 @@ try {
 }
 
 // Dynamic imports guarantee that pg Pool is initialised after env is loaded.
-// Note: auth.ts is NOT imported — disableSignUp: true would also block auth.api.signUpEmail().
-// The user is inserted directly using the same hashPassword function Better Auth uses internally.
 const { db } = await import('../app/db/index.js')
-const { user, account } = await import('../app/db/auth-schema.js')
-const { hashPassword } = await import('better-auth/crypto')
+const { user } = await import('../app/db/auth-schema.js')
+const { createAuth } = await import('../app/lib/auth.js')
+
+// Signup stays disabled in the web application. This script uses a private
+// Better Auth instance so the first account still follows Better Auth's normal
+// password hashing and account creation flow.
+const adminAuth = createAuth({ disableSignUp: false, autoSignIn: false })
 
 // Fixed advisory lock key that identifies this specific operation in PostgreSQL.
 // pg_advisory_lock is blocking and session-scoped: released automatically on pool end.
@@ -136,33 +138,15 @@ async function main() {
   // Better Auth requires a non-empty name; fall back to the email local-part.
   const effectiveName = name || email.split('@')[0]!
 
-  // Insert the user directly, using the same password hash function Better Auth uses.
-  // auth.api.signUpEmail() cannot be used because disableSignUp: true is set in auth.ts,
-  // which would block the call even when made internally (not through HTTP).
-  const hashedPassword = await hashPassword(password)
-  const now = new Date()
-  const userId = randomUUID()
-
-  await db.insert(user).values({
-    id: userId,
-    name: effectiveName,
-    email: email.toLowerCase(),
-    emailVerified: false,
-    createdAt: now,
-    updatedAt: now,
+  const result = await adminAuth.api.signUpEmail({
+    body: {
+      name: effectiveName,
+      email: email.toLowerCase(),
+      password,
+    },
   })
 
-  await db.insert(account).values({
-    id: randomUUID(),
-    accountId: userId,
-    providerId: 'credential',
-    userId,
-    password: hashedPassword,
-    createdAt: now,
-    updatedAt: now,
-  })
-
-  console.log(`\nUser "${effectiveName}" <${email}> created successfully.`)
+  console.log(`\nUser "${result.user.name}" <${result.user.email}> created successfully.`)
 }
 
 main()

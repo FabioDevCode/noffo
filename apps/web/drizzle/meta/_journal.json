@@ -15,6 +15,13 @@
       "when": 1791623756452,
       "tag": "0001_lush_spectrum",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1791719089857,
+      "tag": "0002_auth_uuid_ids",
+      "breakpoints": true
     }
   ]
 }
