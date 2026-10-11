@@ -14,7 +14,7 @@ export function getSafeRedirect(value: unknown): string {
 
   const target = new URL(value, baseUrl)
 
-  if (target.origin !== baseUrl || /^\/(login|register)(\/|$)/.test(target.pathname)) {
+  if (target.origin !== baseUrl || /^\/(login)(\/|$)/.test(target.pathname)) {
     return fallbackPath
   }
 

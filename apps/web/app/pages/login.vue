@@ -61,12 +61,5 @@ async function signIn() {
         Se connecter
       </UButton>
     </UForm>
-
-    <p class="mt-6 text-sm">
-      Pas encore de compte ?
-      <NuxtLink :to="{ path: '/register', query: route.query }" class="underline">
-        Créer un compte
-      </NuxtLink>
-    </p>
   </main>
 </template>

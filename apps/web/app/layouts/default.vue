@@ -68,8 +68,8 @@ async function signOut() {
         :items="navItems"
         orientation="vertical"
         :ui="{
-          link: 'p-1.5 overflow-hidden text-base gap-2',
-          linkLeadingIcon: 'size-6 shrink-0',
+          link: 'p-1.5 overflow-hidden gap-2',
+          linkLeadingIcon: 'size-5 shrink-0',
         }"
       />
     </USidebar>
@@ -101,7 +101,9 @@ async function signOut() {
         class="m-4"
       />
 
-      <slot />
+      <UMain class="px-6 py-4">
+        <slot />
+      </UMain>
     </div>
   </div>
 </template>

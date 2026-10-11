@@ -8,8 +8,8 @@ useHead({
 </script>
 
 <template>
-  <main class="flex-1 overflow-auto p-6">
-    <h1 class="text-2xl font-semibold mb-2">Home</h1>
-    <p class="text-sm text-muted">Dashboard en cours de construction.</p>
-  </main>
+
+  <h1 class="text-2xl font-semibold mb-2">Tableau de bord</h1>
+  <p class="text-sm text-muted">Dashboard en cours de construction.</p>
+
 </template>
