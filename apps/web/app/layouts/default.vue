@@ -61,7 +61,10 @@ async function signOut() {
       :ui="{ container: 'h-full' }"
     >
       <template #header>
-        <img src="/img/noffo_logo.svg" alt="Noffo" class="size-8" />
+        <img src="/img/noffo_logo.svg" alt="Noffo" class="size-7.5" />
+        <p class="ml-2.5 font-bold text-2xl">
+          noffo
+        </p>
       </template>
 
       <UNavigationMenu
@@ -101,7 +104,7 @@ async function signOut() {
         class="m-4"
       />
 
-      <UMain class="px-6 py-4">
+      <UMain class="min-h-0 flex-1 overflow-y-auto px-6 py-4">
         <slot />
       </UMain>
     </div>

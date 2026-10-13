@@ -9,7 +9,7 @@ export default defineNuxtConfig({
   ui: {
     theme: {
       defaultVariants: {
-        size: 'lg',
+        size: 'md',
       },
     },
   },
