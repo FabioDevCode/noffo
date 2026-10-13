@@ -275,24 +275,25 @@ async function deleteTask() {
 </script>
 
 <template>
-  <div class="mx-auto w-full max-w-7xl space-y-6">
-    <div class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-      <div>
-        <h1 class="text-xl font-extrabold text-highlighted">
-          Mes tâches
-        </h1>
-        <p class="mt-1 text-sm text-muted">
-          Retrouvez vos tâches et leurs échéances.
-        </p>
-      </div>
+  <PageContainer>
+    <PageHeader>
+      <template #title>
+        Mes tâches
+      </template>
+      <template #description>
+        Retrouvez vos tâches et leurs échéances.
+      </template>
 
-      <UButton
-        to="/tasks/new"
-        icon="i-lucide-plus"
-        label="Nouvelle tâche"
-        class="w-fit"
-      />
-    </div>
+      <template #actions>
+        <UButton
+          to="/tasks/new"
+          icon="i-lucide-plus"
+          label="Nouvelle tâche"
+          class="w-fit"
+        />
+
+      </template>
+    </PageHeader>
 
     <UEmpty
       v-if="loadStatus === 'pending'"
@@ -488,5 +489,5 @@ async function deleteTask() {
         </div>
       </template>
     </UModal>
-  </div>
+  </PageContainer>
 </template>

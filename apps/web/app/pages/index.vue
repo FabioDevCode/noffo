@@ -1,5 +1,7 @@
 <script setup lang="ts">
-definePageMeta({ layout: false })
+definePageMeta({
+  layout: false
+})
 await navigateTo('/dashboard', { redirectCode: 302 })
 </script>
 

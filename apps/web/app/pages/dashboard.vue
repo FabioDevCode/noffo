@@ -8,8 +8,16 @@ useHead({
 </script>
 
 <template>
+  <PageContainer>
+    <PageHeader>
+      <template #title>
+        Tableau de bord
+      </template>
+      <template #description>
+        Dashboard en cours de construction.
+      </template>
+    </PageHeader>
 
-  <h1 class="text-2xl font-semibold mb-2">Tableau de bord</h1>
-  <p class="text-sm text-muted">Dashboard en cours de construction.</p>
 
+  </PageContainer>
 </template>

@@ -76,6 +76,23 @@ async function signOut() {
           linkLeadingIcon: 'size-5 shrink-0',
         }"
       />
+
+      <template #footer="{ state }">
+        <UButton
+          icon="i-lucide-power"
+          label="Se déconnecter"
+          color="error"
+          variant="ghost"
+          :block="state !== 'collapsed'"
+          :class="state === 'collapsed'
+            ? 'size-8 justify-center p-1.5'
+            : 'w-full justify-start px-1.5'"
+          :loading="isSigningOut"
+          :ui="{ label: state === 'collapsed' ? 'hidden' : undefined }"
+          aria-label="Se déconnecter"
+          @click="signOut"
+        />
+      </template>
     </USidebar>
 
     <div class="flex-1 flex flex-col overflow-hidden bg-default">
@@ -86,14 +103,6 @@ async function signOut() {
           variant="ghost"
           aria-label="Replier la sidebar"
           @click="open = !open"
-        />
-        <UButton
-          icon="i-lucide-log-out"
-          color="neutral"
-          variant="ghost"
-          :loading="isSigningOut"
-          aria-label="Se déconnecter"
-          @click="signOut"
         />
       </div>
 
