@@ -26,6 +26,6 @@ export default defineEventHandler(async (event) => {
     .where(and(
       eq(tasks.userId, session.user.id),
       isNull(tasks.archivedAt),
-      inArray(tasks.status, ['pending', 'in_progress']),
+      inArray(tasks.status, ['pending', 'in_progress', 'completed']),
     ))
 })

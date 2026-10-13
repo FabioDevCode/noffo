@@ -58,6 +58,7 @@ async function signOut() {
     <USidebar
       v-model:open="open"
       collapsible="icon"
+      :style="{ '--sidebar-width': '200px' }"
       :ui="{ container: 'h-full' }"
     >
       <template #header>

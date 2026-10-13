@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { DropdownMenuItem, TableColumn } from '@nuxt/ui'
 
-type TaskStatus = 'pending' | 'in_progress'
+type TaskStatus = 'pending' | 'in_progress' | 'completed'
 type TaskFilter = 'all' | TaskStatus
 
 interface Task {
@@ -44,7 +44,14 @@ const filters: { label: string, value: TaskFilter }[] = [
   { label: 'Toutes', value: 'all' },
   { label: 'À faire', value: 'pending' },
   { label: 'En cours', value: 'in_progress' },
+  { label: 'Terminé', value: 'completed' },
 ]
+
+const statusPresentation: Record<TaskStatus, { label: string, color: 'warning' | 'info' | 'success' }> = {
+  pending: { label: 'À faire', color: 'warning' },
+  in_progress: { label: 'En cours', color: 'info' },
+  completed: { label: 'Terminé', color: 'success' },
+}
 
 const columns: TableColumn<Task>[] = [
   { accessorKey: 'status', header: 'Statut' },
@@ -128,7 +135,7 @@ function formatDate(value: string | null): string {
 }
 
 function isOverdue(task: Task): boolean {
-  if (!task.dueDate) {
+  if (!task.dueDate || task.status === 'completed') {
     return false
   }
 
@@ -167,12 +174,15 @@ function actionItems(task: Task): DropdownMenuItem[] {
     })
   }
 
-  items.push(
-    {
+  if (task.status !== 'completed') {
+    items.push({
       label: 'Terminer',
       icon: 'i-lucide-check',
       onSelect: () => updateStatus(task, 'completed'),
-    },
+    })
+  }
+
+  items.push(
     { type: 'separator' },
     {
       label: 'Supprimer',
@@ -185,7 +195,7 @@ function actionItems(task: Task): DropdownMenuItem[] {
   return items
 }
 
-async function updateStatus(task: Task, nextStatus: TaskStatus | 'completed') {
+async function updateStatus(task: Task, nextStatus: 'in_progress' | 'completed') {
   if (actionTaskId.value) {
     return
   }
@@ -268,11 +278,11 @@ async function deleteTask() {
   <div class="mx-auto w-full max-w-7xl space-y-6">
     <div class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
       <div>
-        <h1 class="text-2xl font-semibold text-highlighted">
+        <h1 class="text-xl font-extrabold text-highlighted">
           Mes tâches
         </h1>
         <p class="mt-1 text-sm text-muted">
-          Retrouvez vos tâches actives et leurs prochaines échéances.
+          Retrouvez vos tâches et leurs échéances.
         </p>
       </div>
 
@@ -313,7 +323,7 @@ async function deleteTask() {
 
     <UEmpty
       v-else-if="tasks.length === 0"
-      title="Aucune tâche active"
+      title="Aucune tâche"
       description="Les tâches que vous créerez apparaîtront ici."
       icon="i-lucide-list-checks"
     >
@@ -355,14 +365,17 @@ async function deleteTask() {
           :columns="columns"
           class="min-w-190"
           sticky="header"
+          :ui="{ root: 'overflow-visible', th: 'px-4 py-3', td: 'px-4 py-1' }"
           empty="Aucune tâche à afficher."
         >
           <template #status-cell="{ row }">
             <UBadge
-              :color="row.original.status === 'pending' ? 'neutral' : 'primary'"
+              class="rounded-full"
+              size="sm"
+              :color="isOverdue(row.original) ? 'error' : statusPresentation[row.original.status].color"
               variant="subtle"
             >
-              {{ row.original.status === 'pending' ? 'À faire' : 'En cours' }}
+              {{ statusPresentation[row.original.status].label }}
             </UBadge>
           </template>
 
@@ -381,14 +394,12 @@ async function deleteTask() {
           </template>
 
           <template #dueDate-cell="{ row }">
-            <span
-              v-if="row.original.dueDate"
-              :class="isOverdue(row.original) ? 'font-medium text-error' : 'text-default'"
-            >
-              {{ formatDate(row.original.dueDate) }}
-              <span v-if="isOverdue(row.original)" class="block text-xs">En retard</span>
-            </span>
-            <span v-else class="text-sm text-muted">Aucune échéance</span>
+            <div v-if="row.original.dueDate" class="flex flex-col items-start gap-1">
+              <span v-if="row.original.dueDate" :class="isOverdue(row.original) ? 'text-error' : 'text-default'">
+                {{ formatDate(row.original.dueDate) }}
+              </span>
+            </div>
+            <span v-else class="text-sm text-muted">-</span>
           </template>
 
           <template #remindAt-cell="{ row }">
@@ -400,9 +411,16 @@ async function deleteTask() {
 
           <template #actions-cell="{ row }">
             <div class="flex justify-end">
-              <UDropdownMenu :items="actionItems(row.original)" :content="{ align: 'end' }">
+              <UDropdownMenu
+                :items="actionItems(row.original)"
+                :content="{ align: 'end' }"
+                :ui="{
+                  item: 'items-center',
+                  itemLeadingIcon: 'size-3.5'
+                }"
+              >
                 <UButton
-                  icon="i-lucide-ellipsis"
+                  icon="i-lucide-ellipsis-vertical"
                   color="neutral"
                   variant="ghost"
                   :aria-label="`Actions pour ${row.original.title}`"
@@ -417,7 +435,7 @@ async function deleteTask() {
       <div v-if="filteredTasks.length > 0" class="flex flex-col gap-3 border-t border-default pt-4 sm:flex-row sm:items-center sm:justify-between">
         <div class="flex flex-wrap items-center justify-between gap-3 text-sm text-muted sm:justify-start">
           <span>
-            {{ firstVisibleTask }}–{{ lastVisibleTask }} sur {{ filteredTasks.length }} tâche{{ filteredTasks.length > 1 ? 's' : '' }}
+            {{ firstVisibleTask }}-{{ lastVisibleTask }} sur {{ filteredTasks.length }} tâche{{ filteredTasks.length > 1 ? 's' : '' }}
           </span>
           <USelect
             v-model="pageSize"
