@@ -360,7 +360,7 @@ async function deleteTask() {
         icon="i-lucide-list-filter"
       />
 
-      <div v-else class="max-h-[65vh] max-w-full overflow-auto rounded-lg border border-default">
+      <div v-else class="max-h-[70vh] max-w-full overflow-auto rounded-lg border border-default">
         <UTable
           :data="paginatedTasks"
           :columns="columns"
