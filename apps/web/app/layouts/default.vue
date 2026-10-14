@@ -1,32 +1,44 @@
 <script setup lang="ts">
 import type { NavigationMenuItem } from '@nuxt/ui'
+import { useMediaQuery } from '@vueuse/core'
 import { authClient } from '~/lib/auth-client'
 
 const { data: session } = await authClient.useSession(useFetch)
 const open = ref(true)
+const isMobileSidebar = useMediaQuery('(max-width: 1023px)')
 const errorMessage = ref('')
 const isSigningOut = ref(false)
+
+function closeSidebarOnMobile() {
+  if (isMobileSidebar.value) {
+    open.value = false
+  }
+}
 
 const navItems: NavigationMenuItem[] = [
   {
     label: 'Tableau de bord',
     icon: 'i-lucide-layout-dashboard',
     to: '/dashboard',
+    onSelect: closeSidebarOnMobile,
   },
   {
     label: 'Mes tâches',
     icon: 'i-lucide-list-todo',
-    to: '/tasks'
+    to: '/tasks',
+    onSelect: closeSidebarOnMobile,
   },
   {
     label: 'Calendrier',
     icon: 'i-lucide-calendar',
-    to: '/calendar'
+    to: '/calendar',
+    onSelect: closeSidebarOnMobile,
   },
   {
     label: 'Paramètres',
     icon: 'i-lucide-settings',
-    to: '/settings'
+    to: '/settings',
+    onSelect: closeSidebarOnMobile,
   }
 ]
 
@@ -60,12 +72,21 @@ async function signOut() {
       collapsible="icon"
       :style="{ '--sidebar-width': '200px' }"
       :ui="{ container: 'h-full' }"
+      :menu="{ ui: { content: 'w-60 max-w-[85vw]' } }"
     >
-      <template #header>
+      <template #header="{ close }">
         <img src="/img/noffo_logo.svg" alt="Noffo" class="size-7.5" />
         <p class="ml-2.5 font-bold text-2xl">
           noffo
         </p>
+        <UButton
+          icon="i-lucide-x"
+          color="neutral"
+          variant="ghost"
+          aria-label="Fermer le menu"
+          class="ml-auto lg:hidden"
+          @click="close"
+        />
       </template>
 
       <UNavigationMenu
