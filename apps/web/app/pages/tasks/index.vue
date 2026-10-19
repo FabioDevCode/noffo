@@ -1,17 +1,8 @@
 <script setup lang="ts">
 import type { DropdownMenuItem, TableColumn } from '@nuxt/ui'
+import type { Task, TaskStatus } from '~/types/task'
 
-type TaskStatus = 'pending' | 'in_progress' | 'completed'
 type TaskFilter = 'all' | TaskStatus
-
-interface Task {
-  id: string
-  title: string
-  shortDescription: string | null
-  status: TaskStatus
-  dueDate: string | null
-  remindAt: string | null
-}
 
 definePageMeta({
   middleware: 'auth',

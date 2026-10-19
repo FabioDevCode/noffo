@@ -1,7 +1,7 @@
 import { and, inArray, isNull, eq } from 'drizzle-orm'
 import { auth } from '~~/app/lib/auth'
 import { db } from '~~/app/db'
-import { tasks } from '~~/app/db/schema'
+import { taskStatus, tasks } from '~~/app/db/schema'
 
 export default defineEventHandler(async (event) => {
   const session = await auth.api.getSession({ headers: event.headers })
@@ -18,14 +18,20 @@ export default defineEventHandler(async (event) => {
       id: tasks.id,
       title: tasks.title,
       shortDescription: tasks.shortDescription,
+      description: tasks.description,
+      customFields: tasks.customFields,
       status: tasks.status,
       dueDate: tasks.dueDate,
       remindAt: tasks.remindAt,
+      createdAt: tasks.createdAt,
+      updatedAt: tasks.updatedAt,
+      completedAt: tasks.completedAt,
+      archivedAt: tasks.archivedAt,
     })
     .from(tasks)
     .where(and(
       eq(tasks.userId, session.user.id),
       isNull(tasks.archivedAt),
-      inArray(tasks.status, ['pending', 'in_progress', 'completed']),
+      inArray(tasks.status, taskStatus.enumValues),
     ))
 })

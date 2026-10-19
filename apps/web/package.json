@@ -12,6 +12,11 @@
   },
   "dependencies": {
     "@better-auth/drizzle-adapter": "^1.7.7",
+    "@fullcalendar/core": "^6.1.20",
+    "@fullcalendar/daygrid": "^6.1.20",
+    "@fullcalendar/interaction": "^6.1.20",
+    "@fullcalendar/vue3": "^6.1.20",
+    "@internationalized/date": "^3.12.4",
     "@nuxt/ui": "^4.11.3",
     "@vueuse/core": "^15.0.0",
     "better-auth": "^1.7.7",
